@@ -1,5 +1,5 @@
 
-# Arrays & Solving LeetCode Questions
+# Arrays
 
 ## Basics of Arrays:
 1. **Definition**: A data structure to store elements of the same type in contiguous memory.
