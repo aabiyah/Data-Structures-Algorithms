@@ -13,44 +13,58 @@ class Solution(object):
         :type board: List[List[str]]
         :rtype: None Do not return anything, modify board in-place instead.
         """
-        def is_valid(row, col, num):
-            # Check the row
+        # Initialize constraints
+        rows = [set() for _ in range(9)]
+        cols = [set() for _ in range(9)]
+        subgrids = [set() for _ in range(9)]
+        empty_cells = []
+
+        # Helper function to get subgrid index
+        def get_subgrid_index(row, col):
+            return (row // 3) * 3 + (col // 3)
+
+        # Populate constraints and identify empty cells
+        for r in range(9):
             for c in range(9):
-                if board[row][c] == num:
-                    return False
+                if board[r][c] == '.':
+                    empty_cells.append((r, c))
+                else:
+                    num = board[r][c]
+                    rows[r].add(num)
+                    cols[c].add(num)
+                    subgrids[get_subgrid_index(r, c)].add(num)
 
-            # Check the column
-            for r in range(9):
-                if board[r][col] == num:
-                    return False
+        # Backtracking function
+        def backtrack(index):
+            # If we processed all empty cells, the board is solved
+            if index == len(empty_cells):
+                return True
 
-            # Check the 3x3 sub-grid
-            start_row, start_col = 3 * (row // 3), 3 * (col // 3)
-            for r in range(start_row, start_row + 3):
-                for c in range(start_col, start_col + 3):
-                    if board[r][c] == num:
-                        return False
+            # Get the current empty cell
+            row, col = empty_cells[index]
+            subgrid_index = get_subgrid_index(row, col)
 
-            return True
+            # Try placing numbers 1-9
+            for num in '123456789':
+                if num not in rows[row] and num not in cols[col] and num not in subgrids[subgrid_index]:
+                    # Place the number and update constraints
+                    board[row][col] = num
+                    rows[row].add(num)
+                    cols[col].add(num)
+                    subgrids[subgrid_index].add(num)
 
-        def backtrack():
-            # Find the next empty cell
-            for row in range(9):
-                for col in range(9):
-                    if board[row][col] == '.':
-                        # Try placing digits 1 to 9
-                        for num in '123456789':
-                            if is_valid(row, col, num):
-                                # Place the number
-                                board[row][col] = num
-                                # Recur to solve the rest of the board
-                                if backtrack():
-                                    return True
-                                # Undo the move (backtrack)
-                                board[row][col] = '.'
-                        return False
-            # If no empty cells remain, the board is solved
-            return True
+                    # Recur for the next empty cell
+                    if backtrack(index + 1):
+                        return True
 
-        backtrack()
+                    # Undo the move (backtrack)
+                    board[row][col] = '.'
+                    rows[row].remove(num)
+                    cols[col].remove(num)
+                    subgrids[subgrid_index].remove(num)
 
+            # If no valid number can be placed, return False
+            return False
+
+        # Start solving from the first empty cell
+        backtrack(0)
