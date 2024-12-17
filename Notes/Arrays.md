@@ -60,6 +60,14 @@
 6. **Binary Search**:
    - Use for sorted arrays.
    - Example: Find target in rotated sorted array.
+  
+7. **Backtracking**:
+   - Explore all possible solutions by recursively making choices and undoing them if they lead to a dead end.
+   - Often used in combination with constraints to prune unnecessary paths.
+   - Example Problems:
+     a. Sudoku Solver: Fill empty cells while satisfying row, column, and subgrid constraints.
+     b. Permutations/Combinations: Generate all permutations or combinations of an array.
+     c. Subset Sum: Find subsets that meet a target sum.
 
 ---
 
