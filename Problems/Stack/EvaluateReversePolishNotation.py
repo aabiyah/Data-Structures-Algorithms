@@ -29,13 +29,14 @@ class Solution:
                   stack.append(a * b)
               elif token == '/':
                   # Handle division (truncate toward zero)
-                  # Python's integer division truncates toward negative infinity, 
-                  # so we handle it manually
-                  stack.append(int(a / b))
+                  # If a and b have different signs and the result is non-zero
+                  if a * b < 0 and a % b != 0:
+                      stack.append(a // b + 1)  # Adjust the result towards zero
+                  else:
+                      stack.append(a // b)
           else:
               # If it's a number, push it onto the stack
               stack.append(int(token))
 
       # The result should be the only element left in the stack
       return stack[-1]
-Evaluate Reverse Polish Notation
