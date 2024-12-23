@@ -7,8 +7,12 @@
 # Those numbers for which this process ends in 1 are happy.
 # Return true if n is a happy number, and false if not.
 
-class Solution:
-  def isHappy(self, n: int) -> bool:
+class Solution(object):
+  def isHappy(self, n):
+      """
+      :type n: int
+      :rtype: bool
+      """
       def sum_of_squares(num):
           # Calculate the sum of squares of digits of the number
           return sum(int(digit) ** 2 for digit in str(num))
