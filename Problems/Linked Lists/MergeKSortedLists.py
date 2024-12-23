@@ -2,6 +2,8 @@
 
 # Merge all the linked-lists into one sorted linked-list and return it.
 
+# Using priority queue
+
 class Solution:
     def mergeKLists(self, lists):
         """
